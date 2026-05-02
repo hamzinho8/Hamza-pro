@@ -44,7 +44,7 @@ class HomeFragment : Fragment() {
             } else false
         }
 
-        binding.btn_search.setOnClickListener {
+        binding.btnSearch.setOnClickListener {
             performSearch(binding.editSearch.text.toString())
         }
     }
