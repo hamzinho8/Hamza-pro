@@ -35,14 +35,14 @@ jobs:
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v3
 
-      - name: Build Android APK
+      - name: Capacitor Sync
+        run: npx cap sync android
+
+      - name: Build Android App
         run: |
-          npm run build
-          npx cap sync android
           cd android
           chmod +x gradlew
-          # Attempt build with wrapper first, then fallback to system gradle
-          ./gradlew assembleDebug --stacktrace || gradle assembleDebug --stacktrace
+          ./gradlew assembleDebug --stacktrace
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
