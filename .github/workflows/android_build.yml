@@ -19,8 +19,16 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
+      - name: List Files Debug
+        run: |
+          pwd
+          ls -F
+          [ -f settings.gradle ] && echo "settings.gradle found" || echo "settings.gradle NOT found"
+
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '8.5'
 
       - name: Build APK
         run: gradle assembleDebug --stacktrace
