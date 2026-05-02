@@ -3,4 +3,8 @@
     <color name="colorPrimary">#6366f1</color>
     <color name="colorPrimaryDark">#4f46e5</color>
     <color name="colorAccent">#818cf8</color>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="violet_accent">#8B5CF6</color>
+    <color name="surface">#1A1A1A</color>
 </resources>
