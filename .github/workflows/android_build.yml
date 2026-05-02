@@ -1,13 +1,16 @@
 name: Build Android APK
+
 on:
   push:
+    branches: [main]
+  pull_request:
     branches: [main]
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Code
+      - name: Checkout
         uses: actions/checkout@v4
 
       - name: Set up JDK 17
@@ -17,15 +20,15 @@ jobs:
           distribution: 'temurin'
 
       - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@v3
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '8.5'
 
       - name: Build APK
-        # Ici on utilise 'gradle' directement au lieu de './gradlew'
-        # Cela force GitHub à utiliser sa version propre de Gradle
         run: gradle assembleDebug
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
-          name: MonApp-Debug
+          name: Hamza-Pro-APK
           path: "**/*.apk"
