@@ -3,6 +3,7 @@ import { Menu, Download, Music, Video, Search, AlertCircle, CheckCircle2, Activi
 import { useAppContext } from '../context/AppContext';
 import { translations } from '../lib/translations';
 import { motion, AnimatePresence } from 'motion/react';
+import { PLACEHOLDERS } from '../constants/placeholders';
 
 export const Home: React.FC<{ onOpenSidebar?: () => void }> = ({ onOpenSidebar }) => {
   const { language, settings, addToLibrary, library, downloadQueue, addToQueue, pauseDownload, resumeDownload, removeFromQueue, addToPlayNext } = useAppContext();
@@ -48,7 +49,7 @@ export const Home: React.FC<{ onOpenSidebar?: () => void }> = ({ onOpenSidebar }
           addToQueue({ 
             title: 'Auto-Shared Content', 
             author: 'Lien externe', 
-            thumbnail: 'https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=400' 
+            thumbnail: PLACEHOLDERS.MUSIC.VINYL 
           }, typeArg, defaultQuality);
           setStatus({ type: 'success', message: language === 'ar' ? 'بدأ التحميل في الخلفية' : 'Téléchargement lancé en arrière-plan' });
           setTimeout(() => setStatus({ type: 'idle' }), 3000);
@@ -65,9 +66,9 @@ export const Home: React.FC<{ onOpenSidebar?: () => void }> = ({ onOpenSidebar }
     setStatus({ type: 'loading', message: 'Recherche en cours...' });
     setTimeout(() => {
       setSearchResults([
-        { id: `search-1-${Date.now()}`, title: 'Hamza - Life is Music', author: 'Artist', thumbnail: 'https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=400&h=400&fit=crop' },
-        { id: `search-2-${Date.now()}`, title: 'Midnight City Beats', author: 'Lofi King', thumbnail: 'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=400&h=400&fit=crop' },
-        { id: `search-3-${Date.now()}`, title: 'Infinite Arabic Oud', author: 'Heritage', thumbnail: 'https://images.unsplash.com/photo-1514525253361-b83f85f5e43a?w=400&h=400&fit=crop' },
+        { id: `search-1-${Date.now()}`, title: 'Hamza - Life is Music', author: 'Artist', thumbnail: PLACEHOLDERS.MUSIC.VINYL },
+        { id: `search-2-${Date.now()}`, title: 'Midnight City Beats', author: 'Lofi King', thumbnail: PLACEHOLDERS.MUSIC.HEADPHONES },
+        { id: `search-3-${Date.now()}`, title: 'Infinite Arabic Oud', author: 'Heritage', thumbnail: PLACEHOLDERS.MUSIC.GUITAR },
       ]);
       setStatus({ type: 'idle' });
     }, 1000);
@@ -227,7 +228,7 @@ export const Home: React.FC<{ onOpenSidebar?: () => void }> = ({ onOpenSidebar }
             <div className="grid grid-cols-2 gap-4">
               <button 
                 onClick={() => {
-                  handleDownloadClick({ title: 'Shared Audio', author: 'YouTube', thumbnail: 'https://images.unsplash.com/photo-1493225255756-d9584f8606e9?w=400' }, 'audio');
+                  handleDownloadClick({ title: 'Shared Audio', author: 'YouTube', thumbnail: PLACEHOLDERS.MUSIC.STAGE }, 'audio');
                   setSharedContent(null);
                 }}
                 className="flex flex-col items-center gap-2 bg-violet-accent text-black py-4 rounded-2xl font-black text-[10px] tracking-tighter shadow-lg shadow-violet-accent/20 active:scale-95 transition-transform"
@@ -237,7 +238,7 @@ export const Home: React.FC<{ onOpenSidebar?: () => void }> = ({ onOpenSidebar }
               </button>
               <button 
                 onClick={() => {
-                  handleDownloadClick({ title: 'Shared Video', author: 'YouTube', thumbnail: 'https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=400' }, 'video');
+                  handleDownloadClick({ title: 'Shared Video', author: 'YouTube', thumbnail: PLACEHOLDERS.VIDEO.CINEMA }, 'video');
                   setSharedContent(null);
                 }}
                 className="flex flex-col items-center gap-2 bg-white text-black py-4 rounded-2xl font-black text-[10px] tracking-tighter active:scale-95 transition-transform"

@@ -3,6 +3,7 @@ import { Menu, Radio, Play, Activity, Globe, Plus, Trash2, Link as LinkIcon } fr
 import { useAppContext } from '../context/AppContext';
 import { translations } from '../lib/translations';
 import { motion, AnimatePresence } from 'motion/react';
+import { PLACEHOLDERS } from '../constants/placeholders';
 
 interface Station {
   id: string;
@@ -42,7 +43,7 @@ export const Live: React.FC<{ onOpenSidebar?: () => void }> = ({ onOpenSidebar }
       id: station.id,
       title: language === 'ar' ? station.nameAr : station.name,
       author: 'Live Streaming',
-      thumbnail: 'https://images.unsplash.com/photo-1478737270239-2f02b77fc618?w=400&h=400&fit=crop',
+      thumbnail: PLACEHOLDERS.VIDEO.RETRO,
       url: station.url,
       category: 'audio',
       duration: 0,
