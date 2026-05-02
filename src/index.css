@@ -14,7 +14,19 @@
   body {
     @apply bg-deep-dark text-white antialiased overflow-x-hidden selection:bg-violet-accent/30;
     font-family: var(--font-sans);
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+    overscroll-behavior-y: contain;
   }
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 
 .glass {
