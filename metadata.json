@@ -1,0 +1,6 @@
+{
+  "name": "Hamza Pro",
+  "description": "Un clone amélioré de YMusic optimisé pour mobile avec téléchargement, streaming live personnalisé et gestion de bibliothèque audio/vidéo.",
+  "requestFramePermissions": [],
+  "majorCapabilities": []
+}
