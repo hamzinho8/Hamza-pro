@@ -7,6 +7,7 @@ import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.hamza.pro.databinding.ActivityMainBinding
+import com.hamza.pro.R
 
 class MainActivity : AppCompatActivity() {
 

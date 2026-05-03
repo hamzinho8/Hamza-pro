@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.hamza.pro.databinding.FragmentHomeBinding
 import com.hamza.pro.databinding.ItemSearchResultBinding
+import com.hamza.pro.R
 
 data class SearchResult(
     val id: String,
