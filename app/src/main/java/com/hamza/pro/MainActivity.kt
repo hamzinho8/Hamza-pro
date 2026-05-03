@@ -1,5 +1,6 @@
 package com.hamza.pro
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -14,6 +15,16 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        val prefs = getSharedPreferences("theme_prefs", Context.MODE_PRIVATE)
+        val theme = prefs.getString("theme", "default")
+        val themeId = when (theme) {
+            "blue" -> R.style.Theme_HamzaPro_Blue
+            "red" -> R.style.Theme_HamzaPro_Red
+            "green" -> R.style.Theme_HamzaPro_Green
+            else -> R.style.Theme_HamzaPro
+        }
+        setTheme(themeId)
+
         installSplashScreen()
         super.onCreate(savedInstanceState)
 
