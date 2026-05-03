@@ -92,30 +92,30 @@ class HomeFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
+}
 
-    private class SearchAdapter(
-        private val results: List<SearchResult>,
-        private val onAction: (SearchResult, String) -> Unit
-    ) : RecyclerView.Adapter<SearchAdapter.ViewHolder>() {
+class SearchAdapter(
+    private val results: List<SearchResult>,
+    private val onAction: (SearchResult, String) -> Unit
+) : RecyclerView.Adapter<SearchAdapter.ViewHolder>() {
 
-        class ViewHolder(val itemBinding: ItemSearchResultBinding) : RecyclerView.ViewHolder(itemBinding.root)
+    class ViewHolder(val itemBinding: ItemSearchResultBinding) : RecyclerView.ViewHolder(itemBinding.root)
 
-        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-            val itemBinding = ItemSearchResultBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-            return ViewHolder(itemBinding)
-        }
-
-        override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-            val item = results[position]
-            holder.itemBinding.txtTitle.text = item.title
-            holder.itemBinding.txtAuthor.text = item.author
-            holder.itemBinding.imgThumbnail.load(item.thumbnail)
-            
-            holder.itemBinding.root.setOnClickListener {
-                onAction(item, "Playing")
-            }
-        }
-
-        override fun getItemCount() = results.size
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        val itemBinding = ItemSearchResultBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return ViewHolder(itemBinding)
     }
+
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        val item = results[position]
+        holder.itemBinding.txtTitle.text = item.title
+        holder.itemBinding.txtAuthor.text = item.author
+        holder.itemBinding.imgThumbnail.load(item.thumbnail)
+        
+        holder.itemBinding.root.setOnClickListener {
+            onAction(item, "Playing")
+        }
+    }
+
+    override fun getItemCount() = results.size
 }
