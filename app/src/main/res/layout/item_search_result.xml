@@ -41,5 +41,12 @@
                 android:textColor="@android:color/darker_gray"
                 android:textSize="14sp" />
         </LinearLayout>
+
+        <ImageView
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_gravity="center_vertical"
+            android:src="@android:drawable/ic_media_play"
+            app:tint="?attr/colorPrimary" />
     </LinearLayout>
 </com.google.android.material.card.MaterialCardView>

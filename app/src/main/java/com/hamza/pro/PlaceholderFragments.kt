@@ -18,8 +18,21 @@ open class BasePlaceholderFragment(private val title: String) : Fragment() {
     }
 }
 
-class LibraryFragment : BasePlaceholderFragment("Library")
-class DownloadsFragment : BasePlaceholderFragment("Downloads")
+class LibraryFragment : Fragment() {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        val view = inflater.inflate(R.layout.fragment_placeholder, container, false)
+        view.findViewById<TextView>(R.id.placeholder_text).text = "My Library\n(You have no tracks saved yet)"
+        return view
+    }
+}
+
+class DownloadsFragment : Fragment() {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        val view = inflater.inflate(R.layout.fragment_placeholder, container, false)
+        view.findViewById<TextView>(R.id.placeholder_text).text = "Downloads\n(Offline tracks appear here)"
+        return view
+    }
+}
 
 class SettingsFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -36,16 +49,20 @@ class SettingsFragment : Fragment() {
             "green" -> group.check(R.id.theme_green)
         }
         
-        group.setOnCheckedChangeListener { _, checkedId ->
-            val theme = when (checkedId) {
-                R.id.theme_default -> "default"
-                R.id.theme_blue -> "blue"
-                R.id.theme_red -> "red"
-                R.id.theme_green -> "green"
-                else -> "default"
+        group.post {
+            group.setOnCheckedChangeListener { _, checkedId ->
+                val theme = when (checkedId) {
+                    R.id.theme_default -> "default"
+                    R.id.theme_blue -> "blue"
+                    R.id.theme_red -> "red"
+                    R.id.theme_green -> "green"
+                    else -> "default"
+                }
+                if (theme != currentTheme) {
+                    prefs.edit().putString("theme", theme).apply()
+                    requireActivity().recreate()
+                }
             }
-            prefs.edit().putString("theme", theme).apply()
-            requireActivity().recreate()
         }
         
         return view

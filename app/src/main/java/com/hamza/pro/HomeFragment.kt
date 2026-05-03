@@ -5,10 +5,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
-import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import coil.load
+import android.widget.Toast
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import com.hamza.pro.databinding.FragmentHomeBinding
 import com.hamza.pro.databinding.ItemSearchResultBinding
 import com.hamza.pro.R
@@ -53,16 +53,35 @@ class HomeFragment : Fragment() {
     private fun performSearch(query: String) {
         if (query.isBlank()) return
         
-        // Mock results matching the React app
-        val mockResults = listOf(
-            SearchResult("1", "Hamza - Life is Music", "Artist", "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=400"),
-            SearchResult("2", "Midnight City Beats", "Lofi King", "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=400"),
-            SearchResult("3", "Infinite Arabic Oud", "Heritage", "https://images.unsplash.com/photo-1514525253361-b83f85f5e43a?w=400")
-        )
-
-        binding.txtResultsHeader.visibility = View.VISIBLE
+        // Let's show a fake loading for 1 second 
+        binding.progressSearch.visibility = View.VISIBLE
         binding.emptyState.visibility = View.GONE
-        binding.recyclerSearch.adapter = SearchAdapter(mockResults)
+        binding.recyclerSearch.visibility = View.GONE
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            delay(1000) // Simuler un chargement
+            
+            binding.progressSearch.visibility = View.GONE
+            binding.recyclerSearch.visibility = View.VISIBLE
+            
+            // Mock results
+            val mockResults = listOf(
+                SearchResult("1", "Hamza - Life is Music", "Artist", "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=400"),
+                SearchResult("2", "Midnight City Beats", "Lofi King", "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=400"),
+                SearchResult("3", "Infinite Arabic Oud", "Heritage", "https://images.unsplash.com/photo-1514525253361-b83f85f5e43a?w=400"),
+                SearchResult("4", "Electric Dreams", "Synth Master", "https://images.unsplash.com/photo-1459749411177-042180ceea72?w=400"),
+                SearchResult("5", "Summer Vibes 2024", "DJ Sunshine", "https://images.unsplash.com/photo-1508700115892-45ecd05ae2ad?w=400")
+            )
+
+            binding.txtResultsHeader.visibility = View.VISIBLE
+            binding.recyclerSearch.adapter = SearchAdapter(mockResults) { item, action ->
+                if (action == "Playing") {
+                    (requireActivity() as? MainActivity)?.showPlayer(item.title, item.author, item.thumbnail)
+                } else {
+                    Toast.makeText(context, "${action}: ${item.title}", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
     }
 
     override fun onDestroyView() {
@@ -70,8 +89,10 @@ class HomeFragment : Fragment() {
         _binding = null
     }
 
-    class SearchAdapter(private val results: List<SearchResult>) :
-        RecyclerView.Adapter<SearchAdapter.ViewHolder>() {
+    class SearchAdapter(
+        private val results: List<SearchResult>,
+        private val onAction: (SearchResult, String) -> Unit
+    ) : RecyclerView.Adapter<SearchAdapter.ViewHolder>() {
 
         class ViewHolder(val binding: ItemSearchResultBinding) : RecyclerView.ViewHolder(binding.root)
 
@@ -85,6 +106,10 @@ class HomeFragment : Fragment() {
             holder.binding.txtTitle.text = item.title
             holder.binding.txtAuthor.text = item.author
             holder.binding.imgThumbnail.load(item.thumbnail)
+            
+            holder.binding.root.setOnClickListener {
+                onAction(item, "Playing")
+            }
         }
 
         override fun getItemCount() = results.size

@@ -9,6 +9,9 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.hamza.pro.databinding.ActivityMainBinding
 import com.hamza.pro.R
+import android.view.View
+import android.widget.Toast
+import coil.load
 
 class MainActivity : AppCompatActivity() {
 
@@ -36,7 +39,18 @@ class MainActivity : AppCompatActivity() {
         val navController = navHostFragment.navController
         binding.navView.setupWithNavController(navController)
 
+        binding.btnPlayPause.setOnClickListener {
+            Toast.makeText(this, "Play/Pause clicked", Toast.LENGTH_SHORT).show()
+        }
+
         handleIntent(intent)
+    }
+
+    fun showPlayer(title: String, author: String, thumbnail: String) {
+        binding.playerBar.visibility = View.VISIBLE
+        binding.playerTitle.text = title
+        binding.playerAuthor.text = author
+        binding.playerThumbnail.load(thumbnail)
     }
 
     override fun onNewIntent(intent: Intent?) {
