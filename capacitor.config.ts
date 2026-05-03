@@ -1,7 +1,7 @@
 import type { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'com.hamzapro.app',
+  appId: 'com.hamza.pro',
   appName: 'Hamza Pro',
   webDir: 'dist',
   plugins: {
