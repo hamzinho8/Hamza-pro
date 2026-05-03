@@ -40,7 +40,7 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.recyclerSearch.layoutManager = LinearLayoutManager(context)
+        binding.recyclerSearch.layoutManager = LinearLayoutManager(requireContext())
         
         binding.editSearch.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
@@ -57,18 +57,18 @@ class HomeFragment : Fragment() {
     private fun performSearch(query: String) {
         if (query.isBlank()) return
         
-        // Let's show a fake loading for 1 second 
         binding.progressSearch.visibility = View.VISIBLE
         binding.emptyState.visibility = View.GONE
         binding.recyclerSearch.visibility = View.GONE
 
         viewLifecycleOwner.lifecycleScope.launch {
-            delay(1000) // Simuler un chargement
+            delay(1000)
             
+            if (_binding == null) return@launch
+
             binding.progressSearch.visibility = View.GONE
             binding.recyclerSearch.visibility = View.VISIBLE
             
-            // Mock results
             val mockResults = listOf(
                 SearchResult("1", "Hamza - Life is Music", "Artist", "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=400"),
                 SearchResult("2", "Midnight City Beats", "Lofi King", "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=400"),
@@ -93,25 +93,25 @@ class HomeFragment : Fragment() {
         _binding = null
     }
 
-    class SearchAdapter(
+    private class SearchAdapter(
         private val results: List<SearchResult>,
         private val onAction: (SearchResult, String) -> Unit
     ) : RecyclerView.Adapter<SearchAdapter.ViewHolder>() {
 
-        class ViewHolder(val binding: ItemSearchResultBinding) : RecyclerView.ViewHolder(binding.root)
+        class ViewHolder(val itemBinding: ItemSearchResultBinding) : RecyclerView.ViewHolder(itemBinding.root)
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-            val binding = ItemSearchResultBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-            return ViewHolder(binding)
+            val itemBinding = ItemSearchResultBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+            return ViewHolder(itemBinding)
         }
 
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {
             val item = results[position]
-            holder.binding.txtTitle.text = item.title
-            holder.binding.txtAuthor.text = item.author
-            holder.binding.imgThumbnail.load(item.thumbnail)
+            holder.itemBinding.txtTitle.text = item.title
+            holder.itemBinding.txtAuthor.text = item.author
+            holder.itemBinding.imgThumbnail.load(item.thumbnail)
             
-            holder.binding.root.setOnClickListener {
+            holder.itemBinding.root.setOnClickListener {
                 onAction(item, "Playing")
             }
         }
